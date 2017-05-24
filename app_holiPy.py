@@ -18,10 +18,15 @@ def randomizer():
     dataframe = pandas.read_csv('data/user_orig.csv')
     recip = list(dataframe['giver'])
     cp = pandas.Series(list(dataframe['couple']), dataframe['giver'])
-
-    while(list(cp[dataframe['giver']]) == list(cp[recip])):
+    giv_ls = list(cp[dataframe['giver']])
+    rec_ls = list(cp[recip])
+    
+    while([i for i, j in zip(giv_ls, rec_ls) if i == j]):
         random.shuffle(recip)
-        dataframe['recip'] = recip
+        rec_ls = list(cp[recip])
+
+    dataframe['recipient'] = recip
+    print(dataframe)
 
     dataframe.to_csv('data/user_new.csv', index=False)
 
