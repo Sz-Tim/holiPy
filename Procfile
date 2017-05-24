@@ -1,1 +1,1 @@
-web: gunicorn app:app_holiPy.py
+web: gunicorn app_holiPy.py
