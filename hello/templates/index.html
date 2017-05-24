@@ -1,79 +1,86 @@
-{% load staticfiles %}
-<!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en-us">
-<link rel="stylesheet" href="static/style_tdi.css">
-<link rel="icon" href="static/logo.png">
-<title>Tim Szewczyk TDI proposal</title>
+<!doctype html>
+<title>holiPy</title>
+<link rel=stylesheet type=text/css href='{{url_for('static',filename='style_holiPy.css')}}'>
 <div class=page>
-	<h1>Tim Szewczyk Data Incubator proposal</h1>
-	<h2 id="overview">Overview</h2>
-	<p>
-		The results of the 2016 US presidential election were a shock to many Americans. In the past five months, media personalities and political pundits have offered many explanations for the apparent shift in the electorate and the failure to recognize it prior to November 8. Typically, these hypotheses draw from social, economic, and demographic differences that effectively divide the US populace into <a href="https://www.nytimes.com/interactive/2016/11/16/us/politics/the-two-americas-of-2016.html?_r=0">two Americas</a>. As with most things in life, an honest, thorough examination of the data is the most assured way to identify which of these ideas best conform with reality.  
-</p>
-<p>
-		For my capstone project at The Data Incubator, I will investigate relationships between voting patterns and socioeconomic data using a variety of publicly available data sources at the county level. There are two key aspects of the project. First, I will develop an interactive tool for users to explore trends and differences in the voting patterns of counties and states compared to select aggregated variables, Second, I will evaluate these hypotheses in a hierarchical Bayesian framework. This model will identify which factors best predict the observed shifts in voting patterns, using dimensional reduction and/or latent variables for the socioeconomic indicators in addition to incorporating effects of states, regions, and the current administration. 
-</p>
-<p>
-		The <A HREF="#DataSources">data</a> I will use are at the county level. This spatial scale has a number of practical advantages: counties are familiar political boundaries, their delineations are stable across years, many datasets are aggregated by county, and counties are readily and consistently identifiable by FIPS codes. So far, I have collected data from several sources with the goal of finding metrics that encapsulate quality of life, economic stability and well-being, overall health, and demographic patterns. The datasets providing this information include personal income data from the Bureau of Economic Analysis, rural and urban classifications from the National Center for Health Statistics, food environment data from the USDA, inequality data from the 2010 census (via JUST Capital - though ongoing work will expand this dataset), health data from the Robert Wood Johnson Foundation (via JUST Capital), and public library & museum data from the Institute of Museum & Library Services. I obtained voting counts aggregated at the county level for 2008, 2012, and 2016 from Tony McGovern.
-</p>
-<p>
-		The interactive tool will consist of two basic, manipulable plots. One will link to the aggregated dataset, and one will link to the output from the analysis. Users will be able to choose from a list of variables to compare with the change in vote share for a particular party. The data will be subsettable by state through a checkbox list. This establishes an environment for exploring patterns in data for those not trained in data-intensive disciplines, and encourages citizens to become better informed about the socioeconomic and demographic patterns in the US. 
-</p>
-<p>
-		While the interactive tool is intended to be exploratory with a goal of engaging users, the Bayesian model is intended as a robust analysis of the patterns in the data with a goal of evaluating the support for competing (non-mutually exclusive) hypotheses. Due to the large number of socioeconomic metrics, I will use either a dimensional reduction technique, such as Principal Component Analysis, to limit the number of variables used, or I will use latent aggregate variables to incorporate multiple metrics contained within the same general category (e.g., 'Access to public resources'). I will also account for state and regional effects. Lastly, a trend in American politics after a two-term presidency is for voters to elect a candidate from an opposing party; I will use historic data to estimate the strength of this effect and incorporate it into the model. 
-</p>
-<p>
-		Thus, my proposed capstone project will generate an educational, engaging online resource for the public, drawing on publicly available data sources and the output from a Bayesian model. Ideally, this will inform users about the country they live in (or live with), increase their comfort with interacting with data, exercise their critical thinking skills, and give them some familiarity with how complex predictive models handle uncertainty.
-	</p>
-	
-	<p>
-		I have uploaded two example figures to illustrate the kinds of patterns that are detectable in these datasets. These figures explore the change in voter share compared to different socioeconomic variables, and they partition the data in different ways.
-	</p>
-
-	<h2 id="Fig1" name="Fig1">Figure 1</h2>
-	<p>
-		The first example figure shows the change in Republican (top: Fig. 1a) and Democratic (bottom: Fig. 1b) vote share from 2012 to 2016 compared to drug overdose mortality rate (log transformed). The panels separate democratic states, swing states, and republican states. Each point represents one county, with counties that went Republican in 2016 in red, and those that went Democratic in blue. Lines are loess smoothers (blue: Democratic counties; red: Republican counties; gray: overall). On the x-axis, negative numbers represent declines in vote share from 2012 to 2016, 0 represents no change in vote share, and positive numbers represent increases in vote share.
-	</p>
-	<p>
-		This figure explores the hypothesis that the ongoing opioid epidemic - and the perceived insufficient response of the Obama administration - drove voters in <a href="https://www.thenation.com/article/did-the-opioid-epidemic-help-donald-trump-win/">the most affected counties</a> to the polls to cast ballots for the change candidate (i.e., Donald Trump [R]). These figures indeed provide some preliminary support. In swing states, counties with higher drug overdose rates tended to show a larger shift toward voting Republican. This is seen in the positive slope in Fig. 1a and the negative slope in Fig. 1b. This pattern also holds in solidly Republican states, but breaks down in Democratic states.
-	</p>
-
-<p>
-  <img src="static/DrugOverdoseRate_16-12R.jpg" alt="log(Drug overdose mortality rate) compared to the change in Republican vote share from 2012 to 2016" width="800">
-</p>
-
-<p>
-  <img src="static/DrugOverdoseRate_16-12D.jpg" alt="log(Drug overdose mortality rate) compared to the change in Democratic vote share from 2012 to 2016" width="800">
-</p>
-
-	<h2 id="Fig2" name="Fig2">Figure 2</h2>
-	<p>
-		The second example figure again shows the change in Republican (top: Fig. 2a) and Democratic (bottom: Fig. 2b) vote share from 2012 to 2016, but in this case compared to the median income within a county. Here, the panels identify different types of urban areas as defined in the 2010 census (largest: top left panel; smallest: bottom right panel). Each point again represents one county, with counties in Democratic states in blue, counties in swing states in purple, and counties in Republican states in red. Lines are loess smoothers (gray: overall). On the x-axis, negative numbers represent declines in vote share from 2012 to 2016, 0 represents no change in vote share, and positive numbers represent increases in vote share. The y-axis is log-transformed.
-	</p>
-	<p>
-		This figure addresses the hypothesis that individuals voted for the Republican candidate in response to <a href="https://www.nytimes.com/2017/01/05/opinion/why-rural-america-voted-for-trump.html">economic hardship among mostly rural voters</a>. However, the patterns reveal a somewhat different story. Counties in large central metro areas and large fringe metro areas show the strongest trends between household income and change in voter share. Specifically, these counties showed larger swings toward the right when household income was lower, indicated by the negative relationship between income and change in Republican vote share (top: Fig. 2a) and the positive relationship between income and change in Democratic vote share (bottom: Fig. 2b). The higher median incomes in a subset of these larger urban areas is also consistent with the ongoing concentration of prime job opportunities in a relatively small number of cities. In contrast, the relationships weaken as urbanization decreases; there is no clear relationship within rural ('Noncore') areas.
-	</p>
-
-<p>
-  <img src="static/Income_16-12R.jpg" alt="log(Median household income) compared to the change in Republican vote share from 2012 to 2016" width="800">
-</p>
-
-<p>
-  <img src="static/Income_16-12D.jpg" alt="log(Median household income) compared to the change in Democratic vote share from 2012 to 2016" width="800">
-</p>
-
-	<h2 id="DataSources" name="DataSources">Data Sources</h2>
-	<p>
-		I have combined data from multiple sources at the county level using FIPS codes. Here is a list of all of the data sources I have used so far:
-	</p>
-	<ul>
-		<li>Personal income from the <a href="https://www.bea.gov/newsreleases/regional/lapi/lapi_newsrelease.htm">Bureau of Economic Analysis</a></li>
-		<li>Rural and urban information from the <a href="https://www.cdc.gov/nchs/data_access/urban_rural.htm">National Center for Health Statistics</a></li>
-		<li>County-level election results compiled by <a href="https://github.com/tonmcg/County_Level_Election_Results_12-16">Tony McGovern</a></li>
-		<li>Food environment data from the <a href="https://www.ers.usda.gov/data-products/food-environment-atlas/data-access-and-documentation-downloads.aspx">USDA</a></li>
-		<li>2010 Census inequality data via <a href="http://blog.thedataincubator.com/2017/04/just-capital-and-data-incubator-challenge/#more-1348">JUST Capital & The Data Incubator</a> (for now)</li>
-		<li>Health data from <a href="http://blog.thedataincubator.com/2017/04/just-capital-and-data-incubator-challenge/#more-1348">Robert Wood Johnson Foundation via JUST Capital & The Data Incubator</a></li>
-		<li>Public library data from the <a href="https://www.imls.gov/research-evaluation/data-collection/public-libraries-survey/explore-pls-data">Institute of Museum & Library Services</a></li>
-		<li>Museum data from the <a href="https://www.imls.gov/research-evaluation/data-collection/museum-universe-data-file">Institute of Museum & Library Services</a></li>
-	</ul>
-</html>
+    <h1>A gift exchange web app</h1>
+    <div class=metanav>
+        <h2>Instructions</h3>
+        <p>This web app generates random pairings for a secret santa style gift exchange. To use it, first make a spreadsheet (saved as a .csv file). Include a row for each person in the exchange, and use the following column headings:<br />
+            <li>giver</li>
+            <li>couple</li>
+            <li>email (optional)</li><br />
+            As you could probably guess, 'giver' contains the names of each person in the gift exchange and 'email' contains their email address. If email addresses are provided, the app will notify each person of their assignment. The 'couple' column is there to allow restrictions on who can be assigned to whom. For example, you might prefer that spouses are not assigned to each other. To identify pairings, use numbers and give couples the same number. An example spreadsheet might look like this:
+        </p>
+        <table>
+            <tr>
+                <th>giver</th>
+                <th>couple</th>
+                <th>email</th>
+            </tr>
+            <tr>
+                <td>Fitz</td>
+                <td>1</td>
+                <td>t.badgerlock@anon.net</td>
+            </tr>
+            <tr>
+                <td>The Fool</td>
+                <td>1</td>
+                <td>beloved@whiteprophets.gov</td>
+            </tr>
+            <tr>
+                <td>Nettle</td>
+                <td>2</td>
+                <td>nettle@farseer.net</td>
+            </tr>
+            <tr>
+                <td>Kettricken</td>
+                <td>3</td>
+                <td>server@farseer.net</td>
+            </tr>
+            <tr>
+                <td>Dutiful</td>
+                <td>4</td>
+                <td>king@farseer.net</td>
+            </tr>
+            <tr>
+                <td>Ellania</td>
+                <td>4</td>
+                <td>queen@farseer.net</td>
+            </tr>
+            <tr>
+                <td>Chade</td>
+                <td>5</td>
+                <td>thyme@anon.net</td>
+            </tr>
+        </table>
+        <p>So Fitz and the Fool will never be assigned to each other, and neither will Dutiful and Ellania. Aside from that restriction, the pairings are completely random - this leaves the possibility of being assigned the same person in consecutive years.
+        </p>
+    </div>
+    <div class=metanav>
+        <h2>Make assignments</h3>
+        <p>To make your assignments, upload your .csv file below. If you do not opt to automatically send the emails, you will see the assignments after you click 'Submit'. Otherwise, the emails will be sent and you will only see a confirmation screen.
+        </p>
+        <p>If you choose to send emails, <b>please double check all email addresses</b>. You will not receive any error messages or notification if any emails bounce back. If you are worried that that may have happened, send me an <a href="mailto: tim.szewczyk@gmail.com">email</a> and I will check.
+        </p>
+        <form id="userinfoform" enctype="multipart/form-data" method="post" action="index_holiPy">
+            <div>
+                <input id="fileupload" name="user_csv" type="file" />
+            </div>
+            <div style="padding-top: 0.75em">
+                <label for="email-opt">Send automatic emails?</label>
+                <input type="radio" name="email-opt" value="Yes"/>Yes
+                <input type="radio" name="email-opt" value="No" checked="checked"/>No
+                <input type="text" name="og-name" placeholder="Your name">
+                <input type="text" name="og-email" placeholder="Your email address">
+            </div>
+            <div style="padding-top: 0.75em">
+                <!-- This needs to perform a different action depending on the
+                     checkbox. If not checked, run the randomizer and then 
+                     redirect to a page with the assignments. If checked,
+                     run the randomizer, send emails, and show a confirmation
+                     page that the emails have been successfully sent. -->
+                <button type="submit">Submit</button> (only click once!)
+            </div>
+        </form>
+    </div>
+</div>
