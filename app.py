@@ -31,9 +31,9 @@ def randomizer():
     dataframe.to_csv('data/user_new.csv', index=False)
 
 
-app_holiPy = Flask(__name__)
+app = Flask(__name__)
 
-@app_holiPy.route('/index_holiPy', methods=['GET','POST'])
+@app.route('/index_holiPy', methods=['GET','POST'])
 def index_holiPy():
     if request.method == 'GET':
         return render_template('index.html')
@@ -70,4 +70,4 @@ def index_holiPy():
 
 
 if __name__ == '__main__':
-    app_holiPy.run(debug=True)
+    app.run()
