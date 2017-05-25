@@ -25,7 +25,7 @@ def randomizer():
 
 app = Flask(__name__)
 
-@app.route('/index', methods=['GET','POST'])
+@app.route('/', methods=['GET','POST'])
 def index():
     if request.method == 'GET':
         return render_template('index.html')
