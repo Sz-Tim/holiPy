@@ -35,12 +35,8 @@ def send_email(og_name, og_email, sbjct, gift_lim, dataframe):
     body = '''Hi %s,\n\n
     
     This year, you have been randomly assigned to give a gift to %s.\n\n
-    The pairings were generated and sent automatically, so apologies if you are giving \
-    a gift to the same person as last year. Since there are only %s possibilities for \
-    you, there is actually a %s%% chance of that happening each year, and a %s%% chance \
-    of that happening to at least one person.\n\n
-    Please keep in mind that the gift limit is $%s. If you have any questions, \
-    contact %s at %s.'''
+    The pairings were generated and sent automatically, so apologies if you are giving a gift to the same person as last year. Since there are only %s possibilities for you, there is actually a %s%% chance of that happening each year, and a %s%% chance of that happening to at least one person.\n\n
+    Please keep in mind that the gift limit is $%s. If you have any questions, contact %s at %s.'''
     
     for i in range(0,len(dataframe)):
         body_i = body % (dataframe['giver'][i], dataframe['recipient'][i], nPs[i],
@@ -50,7 +46,7 @@ def send_email(og_name, og_email, sbjct, gift_lim, dataframe):
         server = smtplib.SMTP_SSL('smtp.gmail.com', 465)
         server.ehlo()
         server.login("HolidayGiftR@gmail.com", "holipygiftr")
-        server.sendmail("HolidayGiftR@gmail.com", dataframe['email'][i], email_text)
+        server.sendmail("Holiday Gift Exchange<HolidayGiftR@gmail.com>", dataframe['email'][i], email_text)
         server.close()
     
 
