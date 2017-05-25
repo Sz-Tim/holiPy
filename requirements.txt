@@ -4,7 +4,6 @@ gunicorn==19.6.0
 itsdangerous==0.24
 Jinja2==2.9.6
 MarkupSafe==1.0
-operator==9.9
 pandas==0.20.1
 requests==2.12.4
 smtplib==20.17
