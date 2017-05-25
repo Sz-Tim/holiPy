@@ -1,6 +1,6 @@
 Flask==0.12.2
 Flask-Cors==3.0.2
-functools==10.2
+functools==3.4
 gunicorn==19.6.0
 itsdangerous==0.24
 Jinja2==2.9.6
