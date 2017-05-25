@@ -32,9 +32,9 @@ def send_email(og_name, og_email, sbjct, gift_lim, dataframe):
         nPs[i] = sum(dataframe['couple'] != dataframe['couple'][i])
     nPs_pr = [(1 - 1/x) for x in nPs]
     tPr = round((1-reduce(operator.mul, nPs_pr,1))*100, 0)
-    body = '''Hi %s,
-This year, you have been randomly assigned to give a gift to %s.
-The pairings were generated and sent automatically, so apologies if you are giving a gift to the same person as last year. Since there are only %s possibilities for you, there is actually a %s%% chance of that happening each year, and a %s%% chance of that happening to at least one person.
+    body = '''Hi %s,\n
+This year, you have been randomly assigned to give a gift to %s.\n
+The pairings were generated and sent automatically, so apologies if you are giving a gift to the same person as last year. Since there are only %s possibilities for you, there is actually a %s%% chance of that happening each year, and a %s%% chance of that happening to at least one person.\n
 Please keep in mind that the gift limit is $%s. If you have any questions, contact %s at %s.'''
     
     for i in range(0,len(dataframe)):
