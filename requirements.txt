@@ -6,6 +6,5 @@ Jinja2==2.9.6
 MarkupSafe==1.0
 pandas==0.20.1
 requests==2.12.4
-smtplib==20.17
 tablib==0.11.4
 Werkzeug==0.12.2
