@@ -1,10 +1,13 @@
-from flask import Flask, render_template, request
 import csv
+from flask import Flask, render_template, request
+from functools import reduce
 import io
+import operator
+import os
 import pandas
 import random
+import smtplib
 import tablib
-import os
 
 def randomizer():
     dataframe = pandas.read_csv('data/user_orig.csv')
@@ -21,6 +24,35 @@ def randomizer():
     print(dataframe)
 
     dataframe.to_csv('data/user_new.csv', index=False)
+    
+def send_email(og_name, og_email, sbjct, gift_lim, dataframe):
+    
+    nPs = [0]*len(dataframe)
+    for i in range(0, len(nPs)):
+        nPs[i] = sum(dataframe['couple'] != dataframe['couple'][i])
+    nPs_pr = [(1 - 1/x) for x in nPs]
+    tPr = round((1-reduce(operator.mul, nPs_pr,1))*100, 0)
+    body = '''Hi %s,\n\n
+    
+    This year, you have been randomly assigned to give a gift to %s.\n\n
+    The pairings were generated and sent automatically, so apologies if you are giving 
+    a gift to the same person as last year. Since there are only %s possibilities for 
+    you, there is actually a %s%% chance of that happening each year, and a %s%% chance 
+    of that happening to at least one person.\n\n
+    Please keep in mind that the gift limit is $%s. If you have any questions, 
+    contact %s at %s.'''
+    
+    for i in range(0,len(dataframe)):
+        body_i = body % (dataframe['giver'][i], dataframe['recipient'][i], nPs[i],
+                         round(1/nPs[i]*100, 0), tPr, gift_lim, 
+                         og_name, og_email)
+        email_text = 'Subject: {}\n\n{}'.format(sbjct, body_i)
+        server = smtplib.SMTP_SSL('smtp.gmail.com', 465)
+        server.ehlo()
+        server.login("HolidayGiftR@gmail.com", "holipygiftr")
+        server.sendmail("HolidayGiftR@gmail.com", dataframe['email'][i], email_text)
+        server.close()
+    
 
 
 app = Flask(__name__)
@@ -57,6 +89,9 @@ def index():
             f_e = open('data/user_email.txt', 'w')
             f_e.write('%s <%s>' % (email_nm, email_eml))
             f_e.close()
+            sbjct = request.form['sbjct']
+            gift_lim = request.form['gift_lim']
+            send_email(email_nm, email_eml, sbjct, gift_lim, dataframe)
             return render_template('emails_sent.html', og_nm=email_nm,\
                                    nPart=dataframe.shape[0])
 

@@ -1,10 +1,13 @@
 Flask==0.12.2
 Flask-Cors==3.0.2
+functools==10.2
 gunicorn==19.6.0
 itsdangerous==0.24
 Jinja2==2.9.6
 MarkupSafe==1.0
+operator==9.9
 pandas==0.20.1
 requests==2.12.4
+smtplib==20.17
 tablib==0.11.4
 Werkzeug==0.12.2
